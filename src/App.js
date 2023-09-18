@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { decrement, increment, incrementCustom } from './redux/features/counter/counterSlice';
+import { useEffect } from 'react';
+import { getCountry } from './redux/features/country/countrySlice';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  const {counter} = useSelector(state => state.counter)
+
+  
+  
+  useEffect(() => {
+    dispatch(getCountry())
+  },[])
+
+  const {country,loading} = useSelector(state => state.country)
+
+  
+  console.log(country);
+  console.log(loading);
+
+  
   return (
+    
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button aria-label="Increment value" onClick={() => dispatch(decrement())}>Azalt</button>
+      <span style={{padding:20}}>{counter}</span>
+      <button aria-label="Decrement value" onClick={() => dispatch(increment())}>Arttır</button>
+      <button aria-label="Decrement value" onClick={() => dispatch(incrementCustom(10))}>Custom</button>
     </div>
   );
 }
